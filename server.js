@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(postRoutes);
 
 app.get('/',(req,res)=>{
-    res.send('API has been successfully Connected');
+    res.send('API connected successfully');
 })
 
 
