@@ -90,8 +90,36 @@ router.get("/api/posts", (req, res, next) => {
         .catch(err => {
             return res.status(201).json({ error: 'Issue in fetching' });
         });
-
 })
 
+// Search a specific post
+router.get("/api/post/:id", (req, res, next) => {
+    Post.findById(req.params.id).then(document => {
+        if (document) {
+            res.status(200).json(document);
+        } else {
+            res.status(404).json({
+                messages: 'Post not found',
+            });
+        }
+    });
+});
+
+// Update a specific Post
+router.put("/api/post/:id", (req, res, next) => {
+    const post = new Post({
+        _id: req.body.id,
+        title: req.body.title,
+        content: req.body.content
+    });
+
+    Post.updateOne({ _id: req.params.id }, post).then(updatePost => {
+        console.log(updatePost);
+        res.status(201).json({
+            message: 'Post updated successfully',
+            // userId: updateUser._id
+        });
+    });
+});
 
 module.exports = router;
