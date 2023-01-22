@@ -122,4 +122,11 @@ router.put("/api/post/:id", (req, res, next) => {
     });
 });
 
+// Delete a specific post
+router.delete("/api/post/:id", (req, res, next) => {
+    Post.deleteOne({ _id: req.params.id }).then(result => {
+        console.log(result);
+        res.status(200).json({ message: "Post deleted!" });
+    });
+});
 module.exports = router;
