@@ -77,5 +77,21 @@ router.post('/numbers', (req, res) => {
     else res.json({ result: N2 });
 })
 
+//Fetch Post
+router.get("/api/posts", (req, res, next) => {
+    Post.find()
+        .then((documents) => {
+            console.log(documents);
+            return res.status(201).json({
+                message: 'Post fetching',
+                posts: documents
+            });
+        })
+        .catch(err => {
+            return res.status(201).json({ error: 'Issue in fetching' });
+        });
+
+})
+
 
 module.exports = router;
