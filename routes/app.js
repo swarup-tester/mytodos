@@ -48,7 +48,7 @@ let storage = multer.diskStorage({
 
 // localhost:3000/api/posts
 // These are the keys {title:content:image}
-router.post("/api/posts", multer({ storage: storage }).single("image"),
+router.post("/api/todos", multer({ storage: storage }).single("image"),
     (req, res, next) => {
         const url = req.protocol + "://" + req.get("host");
         const post = new Post({
@@ -59,7 +59,7 @@ router.post("/api/posts", multer({ storage: storage }).single("image"),
 
         post.save().then(createPost => {
             res.status(201).json({
-                message: 'Post added successfully',
+                message: 'Todo added successfully',
                 post: {
                     id: createPost._id,
                     title: createPost.title,
@@ -78,12 +78,12 @@ router.post('/numbers', (req, res) => {
 })
 
 //Fetch Post
-router.get("/api/posts", (req, res, next) => {
+router.get("/api/todos", (req, res, next) => {
     Post.find()
         .then((documents) => {
             console.log(documents);
             return res.status(201).json({
-                message: 'Post fetching',
+                message: 'Todo fetching',
                 posts: documents
             });
         })
@@ -93,20 +93,20 @@ router.get("/api/posts", (req, res, next) => {
 })
 
 // Search a specific post
-router.get("/api/post/:id", (req, res, next) => {
+router.get("/api/todo/:id", (req, res, next) => {
     Post.findById(req.params.id).then(document => {
         if (document) {
             res.status(200).json(document);
         } else {
             res.status(404).json({
-                messages: 'Post not found',
+                messages: 'Todo not found',
             });
         }
     });
 });
 
 // Update a specific Post
-router.put("/api/post/:id", (req, res, next) => {
+router.put("/api/updatetodo/:id", (req, res, next) => {
     const post = new Post({
         _id: req.body.id,
         title: req.body.title,
@@ -116,17 +116,17 @@ router.put("/api/post/:id", (req, res, next) => {
     Post.updateOne({ _id: req.params.id }, post).then(updatePost => {
         console.log(updatePost);
         res.status(201).json({
-            message: 'Post updated successfully',
+            message: 'Todo updated successfully',
             // userId: updateUser._id
         });
     });
 });
 
 // Delete a specific post
-router.delete("/api/post/:id", (req, res, next) => {
+router.delete("/api/deletetodo/:id", (req, res, next) => {
     Post.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);
-        res.status(200).json({ message: "Post deleted!" });
+        res.status(200).json({ message: "Todo deleted!" });
     });
 });
 module.exports = router;
